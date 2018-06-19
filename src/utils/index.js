@@ -1,4 +1,22 @@
-function formatNumber (n) {
+import config from '../config/index'
+
+//封装get方法
+export function get(url) {
+  return new Promise((resolve ,reject)=>{
+    wx.request({
+      url:config.host+url,
+      success:(res)=>{
+        if(res.data.code === config.ERROR_OK){
+          resolve(res.data.data)
+        }else{
+          reject(res.data)
+        }
+      }
+    })
+  })
+}
+
+export function formatNumber (n) {
   const str = n.toString()
   return str[1] ? str : `0${str}`
 }
@@ -16,9 +34,4 @@ export function formatTime (date) {
   const t2 = [hour, minute, second].map(formatNumber).join(':')
 
   return `${t1} ${t2}`
-}
-
-export default {
-  formatNumber,
-  formatTime
 }

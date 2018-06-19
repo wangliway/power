@@ -20,9 +20,8 @@
       </div>
     </div>
 </template>
-
 <script>
-  import {mapMutations} from 'vuex'
+  import {mapGetters} from 'vuex'
   export default {
     data () {
       return {
@@ -41,26 +40,19 @@
           success: () => {
             wx.getUserInfo({
               success: (res) => {
-                this.userInfo = res.userInfo
-                this.setUser(res.userInfo)
               }
             })
           }
         })
-      },
-      ...mapMutations({
-        setUser: 'SET_USER'
-      })
+      }
     },
+    ...mapGetters([
+      'userInfo'
+    ]),
     created () {
       this.getUserInfo()
     },
     mounted () {
-      if (this.userInfo.nickName === undefined) {
-        wx.navigateTo({
-          url: '../auth/main'
-        })
-      }
     }
   }
 </script>
